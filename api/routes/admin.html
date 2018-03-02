@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <style> 
+  .wrapper {width: 80%; margin: 0 auto;}
+    .title h1 { text-align: center; }
+    .info-wrapper {display: flex;}
+    .timer {width: 50%; background-color: rgb(154, 189, 154); padding: 20px;}
+    .host {width: 50%; background-color: rgb(154, 189, 154); padding: 20px;}
+    .timer span {font-size: 1.2em; margin: 0 5px; color: white; }
+    .container {border: 1px solid black; border-radius: 4px; min-height: 400px; padding: 20px; background-color: #ccc; }
+    nav { padding: 20px; border: 1px solid black; border-radius: 4px; }
+    nav div { display: flex; justify-content: start; margin: 5px; }
+    nav button { margin: 5px; padding: 10px; font-size: 1em; border: 1px solid #ccc; border-radius: 4px;  }
+    nav button:hover { background-color: brown; color: white;  }
+    .get button { background-color: greenyellow;}
+    .put button {background-color: orange;}
+    .interval button { background-color: red;}
+  </style>
+  <title>Admin Panel</title>
+</head>
+<body>
+<div class="wrapper">
+  <div class="title"><h1>Admin panel</h1></div>  
+  <nav>
+    <div class="info-wrapper">
+      <div class="timer"></div>
+      <div class="host"></div>
+    </div>
+    
+    <div class="get">
+        <button type="button" onClick='getNewestMessageFromDb()'>Get one latest message from db</button>
+        <button type="button" onClick='getAllMessagesFromDb()'>Get all messages from db</button>
+        <button type="button" onClick='getCountOfMessages()'>Get count of messages in db</button> 
+        <button type="button" onClick='renderIntervalTime()'>Get interval time</button>   
+        
+    </div>
+    <div class="put">   
+      <button type="button" onClick='downloadAllMessagesToDb()'>Parse all messages to db</button>
+      <button type="button" onClick='downloadLatestMessagesToDb()'>Parse latest messages to db</button>
+      <button type="button" onClick='deleteAllMessagesFromDb()'>Delete all messages from db</button>
+    </div>
+    <div class="interval">
+      <button type="button" onClick='startInterval("30000")'>Start interval every 30 sec</button>
+      <button type="button" onClick='startInterval()'>Start interval with default time</button>
+      <button type="button" onClick='stopInterval()'>Stop interval</button>
+      
+    </div>
+    
+  </nav>
+  
+  <pre><div class="container" ></div></pre>
+  </div>
+<script> 
+var container = document.querySelector(".container");
+var timer = document.querySelector(".timer");
+var hostBlock = document.querySelector(".host");
+var hash = '7e16b5527c77ea58bac36dddda6f5b444f32e81b';
+var domain = window.location.origin + "/";
+hostBlock.innerHTML = `We are on &#8195; <big><b>${domain}</b></big> &#8195; now!`;
+console.log(domain)
+// var domain = "https://secret-earth-50936.herokuapp.com/";
+window.onload = function() {
+  renderIntervalTime(timer);
+  };
+
+function request(link, element, hash, customRender, fetchOptions) {
+  let url = domain + link + hash;
+  let requestObj = (fetchOptions) ? new Request(url, fetchOptions) : new Request(url);
+  fetch(requestObj)
+    .then(function(res){  
+      return res.json();
+    })
+    .then(function(json){
+      render(json, element, customRender);
+    });
+  } 
+
+function render(json, element, customRender) {
+  element.innerHTML = '';
+  let value = JSON.stringify(json, undefined, 2);
+  element.innerHTML = customRender ? customRender(value) : value; //
+}
+
+function getNewestMessageFromDb(){
+  request("newest", container, hash);
+}
+
+function getAllMessagesFromDb() {
+  request("messages", container, hash);
+}
+
+function getCountOfMessages() {
+  request("count", container, hash);
+}
+
+function downloadAllMessagesToDb() {
+  request("all", container, hash);
+}
+
+function downloadLatestMessagesToDb() {
+  request("latest", container, hash);
+}
+
+function deleteAllMessagesFromDb() {
+  request("delete", container, hash);
+}
+
+function renderIntervalTime(element) {
+  element = element ? element : container;
+  request("timer", element, hash, (value) => { 
+    return `Server parse latest messages every <span>${value}</span> seconds`;
+  });
+}
+
+function startInterval(timeInterval) {
+  let fetchOptions = { 
+    method: "POST", 
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    body: JSON.stringify( { timeout: timeInterval || '' } )
+  };
+  request("start", container, hash, null, fetchOptions);
+  renderIntervalTime(timer);
+}
+
+function stopInterval() {
+  request("stop", container, hash);
+  renderIntervalTime(timer);
+}
+
+</script>
+</body>
+</html>

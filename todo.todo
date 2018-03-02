@@ -1,0 +1,12 @@
+☐ move admin link functions to another controller
+☐ move frontend links in other controller
+☐ move filter and other links to another controller
+☐ make static for html admin
+☐ make auth for admin
+☐ delete all credentials from files - and serve them in heroku env storage
+☐ delete unused files
+☐ count parsed messages and send count to client
+☐ recolored buttons in admin
+☐ put alert() on heavy buttons - delete all, delete one, parse all, get all to screen...
+☐ delete hashes in routes - make needed api as public
+☐ make 403 if not authorised on admin special links

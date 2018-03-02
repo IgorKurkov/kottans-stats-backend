@@ -1,0 +1,29 @@
+{
+  "name": "mongo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "mongo-local": "mongod --dbpath C:/data/db"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.2",
+    "node-fetch": "^1.7.3",
+    "nodemon": "^1.14.11",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.2",
+    "node-fetch": "^1.7.3",
+    "nodemon": "^1.14.11",
+    "winston": "^2.4.0"
+  }
+}
