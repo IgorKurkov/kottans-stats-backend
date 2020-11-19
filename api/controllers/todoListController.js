@@ -238,7 +238,8 @@ exports.fetchAllMessagesToDb = function(req, res) {
 };
 
 exports.fetchLatestMessagesToDb = function(req, res) {
-  requesting.latestMessagesToDb(res);
+  res.json({ok: true}); // it not work anymore. no requesting from gitter. ...
+  // requesting.latestMessagesToDb(res);
 };
 
 exports.findMessageById = function(req, res) {
