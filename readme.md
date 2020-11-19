@@ -12,5 +12,7 @@ Start mongo: `mongod --dbpath C:/projects/mongodb-data/db` or `npm run mongo-loc
 
 Start server: `npm run start`
 
-dump db:
+dump db collection as json: `mongoexport --host=127.0.0.1  --port 27017 --db Tododb --collection tasks --out ./dataset.json`
+
 restore db from local by bson: `mongorestore --uri mongodb+srv://<dblogin>:<passwordOfDb>@<dbNameonCloud>.c6hyj.mongodb.net --db <dbNameonCloud> /dump/<dbnameonlocalhost>`
+
