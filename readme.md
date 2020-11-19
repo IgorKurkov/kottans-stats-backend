@@ -12,3 +12,7 @@ Start mongo: `mongod --dbpath C:/data/db` or `npm run mongo-local`
 
 Start server: `npm run start`
 
+
+dump db:
+restore db from local by bson: `mongorestore --uri mongodb+srv://<dblogin>:<passwordOfDb>@<dbNameonCloud>.c6hyj.mongodb.net --db <dbNameonCloud> /dump/<dbnameonlocalhost>`
+
